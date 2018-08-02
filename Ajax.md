@@ -106,6 +106,7 @@ var xhr = new ActiveXObject('Microsoft.XMLHTTP');
 修改上述代码并测试，**具有兼容性**：
 
 ```html
+<script>
 var btu = document.getElementById('btu');
 btu.onclick = function(){
 	try{
@@ -295,9 +296,11 @@ echo $data;
 $v = $_GET['names'];
 //链接数据，查询是否存在用户名 //此步骤省略
 
-if($v == 'admin'){
+if($v == 'admin')
+{
     echo 1;
-}else{
+}else
+{
     echo 0;
 }
 ```
@@ -621,7 +624,8 @@ var_dump($xml);
 
 ```php
 $xml = simplexml_load_file('user.xml');
-foreach ($xml -> man as $v){
+foreach ($xml -> man as $v)
+{
     echo '姓名:' . $v -> name.'；年龄：' . $v -> age . '<hr>';
 }
 ```
@@ -631,7 +635,8 @@ foreach ($xml -> man as $v){
 ```php
 $xml = simplexml_load_file('./01.xml');
 $length = count($xml);
-for($i=0; $i < $length; $i++){
+for($i=0; $i < $length; $i++)
+{
     echo $xml -> man[$i] -> name;
 }
 ```
@@ -689,7 +694,8 @@ $sql = "select * from test";
 $res = mysql_query($sql);
 //生成XML格式数据
 $xml = '<users>';
-while($row = mysql_fetch_assoc($res)){
+while($row = mysql_fetch_assoc($res))
+{
     $xml .= '<admin>';
     $xml .= '<id>' . $row['id'] . '</id>';
     $xml .= '<name>' . $row['name'] . '</name>';
@@ -844,7 +850,8 @@ mysql_query('set names utf8');
 $sql = "select * from test";
 $res = mysql_query($sql);
 $data = [];
-while($row = mysql_fetch_assoc($res)){
+while($row = mysql_fetch_assoc($res))
+{
     $data[] = $row;
 }
 //json_encode 转为json字符串
@@ -943,9 +950,11 @@ $json = $_GET['data'];
 $d = json_decode($json, true);
 $sql = 'insert into test(name,age,sex) values ("' . $d['name'] . '",' . $d['age'] . ',"' . $d['sex'] . '")';
 $res = mysql_query($sql);
-if(mysql_insert_id() > 0){
+if(mysql_insert_id() > 0)
+{
     echo 1;
-}else{
+}else
+{
     echo 0;
 }
 ```
@@ -1253,7 +1262,6 @@ $.get = function(url){
     }
     $.get('09-1.php',cb);
 </script>
-
 ```
 
 修改 ajax.js
@@ -1327,14 +1335,15 @@ $.get = function(url, callback, type=null){
 
 ```php
 $v = $_GET['v'];
-mysql_connect('localhost', 'root', '');
+mysql_connect('localhost', 'root', '123456');
 mysql_query('use test');
 mysql_query('set names utf8');
 //SQL 语句
 $sql = "select * from test where name like '" . $v . "%'";
 $res = mysql_query($sql);
 $data = [];
-while($row = mysql_fetch_assoc($res)){
+while($row = mysql_fetch_assoc($res))
+{
     $data[] = $row;
 }
 echo json_encode($data);
@@ -1437,10 +1446,12 @@ $pcount = ceil($count / $psize);//最大页码数
 
 //获取get传参，第几页数据
 $page = isset($_GET['page']) ? $_GET['page'] : 0;
-if($page < 1){ //页码小于1，则取1
+if($page < 1)
+{ //页码小于1，则取1
     $page = 1;
 }
-if($page > $pcount){//页码大于最大数，则去最大数
+if($page > $pcount)
+{//页码大于最大数，则去最大数
     $page = $pcount;
 }
 
@@ -1448,7 +1459,8 @@ $offset = ($page - 1) * $psize; //计算查询区间
 $sql = "select * from test limit $offset, $psize";
 $res = mysql_query($sql);
 $data = [];
-while ($row = mysql_fetch_assoc($res)) {
+while ($row = mysql_fetch_assoc($res)) 
+{
     $data[] = $row;
 }
 //返回当前页码数
