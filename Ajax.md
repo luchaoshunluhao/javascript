@@ -31,7 +31,7 @@ XML ：数据传输格式
 ### 2、 快速入门
 
 ```html
-    <body>
+<body>
     <form action="1-1-1.php" method="get">
         <input type="text" name="names" value=""><br>
         <input type="button" value="提交">
