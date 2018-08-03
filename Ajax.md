@@ -594,7 +594,7 @@ XML在解析时一共要经历三个步骤：
     </man>
     <man sex="男">
         <name>广坤</name>
-		<age>48</age>
+        <age>48</age>
     </man>
 </user>
 ```
