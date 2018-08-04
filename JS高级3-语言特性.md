@@ -826,7 +826,7 @@ f(1, 2, 3);
 function foo(a, b) {
     var i, datas = [];
     if (arguments.length > 2) {
-        for (i = 2; i<arguments.length; i++) {
+        for (i = 2; i < arguments.length; i++) {
             datas.push(arguments[i]);
         }
     }
@@ -1380,7 +1380,7 @@ f() // true
 ```js
 function F(){
     this.hello=function(){
-        console.log('Hello'+this.name);
+        console.log('Hello' + this.name);
     }
 }
 var f1 = new F();
@@ -1455,8 +1455,8 @@ o.f1()
 **② 不在循环数组中使用this**
 
 ```js
-var ar = ['a','b','c'];
-ar.forEach(function(v,k,ar){
+var ar = ['a', 'b', 'c'];
+ar.forEach(function(v, k, ar){
     console.log(this[k])
 })
 ```
@@ -1507,7 +1507,7 @@ var zs = {name:'zhangsan'};
 function f(age, sex){
 	console.log(this.name + age + sex); 
 }
-f.apply(zs,[23,'nan']);
+f.apply(zs, [23, 'nan']);
 ```
 
 **bind()方法**
@@ -1724,7 +1724,7 @@ console.log(m.constructor); // Run 函数
 function f1(){
     this.color = '黑色';
     this.h = function(){
-        console.log(this.color+this.sex);
+        console.log(this.color + this.sex);
     }
 }
 
@@ -1996,11 +1996,11 @@ insertBefore、firstChild、getComputedStyle、appendChild、createElement、Mat
         this.crow = function(init){
             var row = this.cdiv('row');
             // 获取0-3的随机数
-            var k = Math.floor(Math.random()*4)
+            var k = Math.floor(Math.random() * 4)
             // 每行div根据随机数，随机设置一个黑块
-            for(var i=0;i<4;i++){
+            for(var i = 0; i < 4; i++){
                 // 随机出现黑块
-                if(i==k){
+                if(i == k){
                     row.appendChild(this.cdiv('black'));
                 }else{
                     row.appendChild(this.cdiv());
@@ -2012,7 +2012,7 @@ insertBefore、firstChild、getComputedStyle、appendChild、createElement、Mat
         // 初始化运行
         this.init = function(){
             // 循环创建4行，并添加到main中
-            for(var i = 0;i<4;i++){
+            for(var i = 0;i < 4; i++){
                 var row = this.crow();
                 this.main.appendChild(row);
             }
@@ -2071,14 +2071,14 @@ insertBefore、firstChild、getComputedStyle、appendChild、createElement、Mat
             // 如果tops大于1，证明一行下降结束
             if(tops>1){
                 // 如果此行没有通行证，游戏结束
-                if(this.main.lastChild.pass==undefined){
+                if(this.main.lastChild.pass == undefined){
                     window.clearInterval(this.interval);
                     // 游戏已经结束了
                     this.over = true;
                     alert('游戏已结束')
                 }else{ // 如果有通行证
                     // 如果大于5行，删除最后一行
-                    if(this.main.children.length>=5) {
+                    if(this.main.children.length >= 5) {
                         this.main.removeChild(this.main.lastChild);
                     }
                 }

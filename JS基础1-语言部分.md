@@ -114,7 +114,7 @@ var b = '2';
 var c = a;
 a=b;
 b=c;
-console.log(a,b);
+console.log(a, b);
 ```
 
 1. 不使用临时变量，交换两个数值变量的值
@@ -325,7 +325,7 @@ console.log(name, age);
   var d = Number(null);
   var e = Number(undefined);
   
-  console.log(a,b,c,d,e); // 1 1 NaN 0 NaN
+  console.log(a, b, c, d, e); // 1 1 NaN 0 NaN
   
   // Number()可以把任意值转换成数值，如果要转换的字符串中有一个不是数值的字符，返回NaN
   ```
@@ -339,7 +339,7 @@ console.log(name, age);
   var d = parseInt(null);
   var e = parseInt(undefined);
   
-  console.log(a,b,c,d,e); //1 1 NaN NaN NaN
+  console.log(a, b, c, d, e); //1 1 NaN NaN NaN
   
   // 如果第一个字符是数字会解析,直到遇到非数字结束
   // 如果第一个字符不是数字或者符号就返回NaN
@@ -354,7 +354,7 @@ console.log(name, age);
   var d = parseFloat(null);
   var e = parseFloat(undefined);
   
-  console.log(a,b,c,d,e); //1.2 1.3 NaN NaN NaN
+  console.log(a, b, c, d, e); //1.2 1.3 NaN NaN NaN
   
   // parseFloat() 把字符串转换成浮点数
   // parseFloat()和parseInt非常相似，
@@ -383,7 +383,7 @@ var d = Boolean(null);
 var e = Boolean(undefined);
 var f = Boolean(NaN);
 
-console.log(a,b,c,d,e,f); //true false true false false false
+console.log(a, b, c, d, e, f); //true false true false false false
 
 // 0、''(空字符串) 、null、 undefined 、NaN 会转换成false  其它都会转换成true
 ```
@@ -849,7 +849,7 @@ for(var i = 1; i <= 100; i++){
 //求1-100之间所有数的和
 var s = 0;
 for(var i = 0; i <= 100; i++){
-    s+=i;
+    s += i;
 }
 console.log(s);
 
@@ -973,7 +973,7 @@ console.log(arr3[0]);//undefined
 // 格式：数组名[下标]	下标又称索引
 // 下标从0开始
 // 功能：获取数组对应下标的那个值，如果下标不存在，则返回undefined。
-var arr = ['red',, 'green', 'blue'];
+var arr = ['red', 'green', 'blue'];
 arr[0];	// red
 arr[2]; // blue
 arr[3]; // 这个数组的最大下标为2,因此返回undefined
@@ -997,7 +997,7 @@ for循环示例：
 ```js
 var arr1 = [1, 3, 4]; 
 
-for(var i = 0;i<arr1.length;i++){
+for(var i = 0; i < arr1.length; i++){
     console.log(arr1[i]);
 }
 ```
@@ -1008,7 +1008,7 @@ while循环示例：
 var arr1 = [1, 3, 4]; 
 
 var i = 0;
-while(i<arr1.length){
+while(i < arr1.length){
     console.log(arr1[i]);
     i++;
 }
@@ -1062,10 +1062,10 @@ console.log("最大值是:" + maxNum);
 
 ```js
 // 遍历出数组中所有的偶数
-var arr = [1,2,3,4,5,6,7];
-for(var i=0;i<arr.length;i++){
+var arr = [1, 2, 3, 4, 5, 6, 7];
+for(var i = 0; i < arr.length; i++){
     //判断
-    if(arr[i]%2==0){
+    if(arr[i] % 2 == 0){
         console.log(arr[i]);
     }
 }
@@ -1191,7 +1191,7 @@ function fn(a, b) {
   console.log(a + b);
 }
 var x = 5, y = 6;
-fn(x,y); 
+fn(x, y); 
 // x,y实参，有具体的值。
 // 函数执行的时候会把x,y复制一份给函数内部的a和b，
 // 函数内部的值是复制的新值，无法修改外部的x,y
@@ -1479,7 +1479,6 @@ fn1();
 车是一类事物，门口停的那辆车才是对象
 	特征：红色、四个轮子
 	行为：驾驶、刹车
-
 ```
 
 ### 2、 JavaScript中的对象
@@ -1493,7 +1492,6 @@ JavaScript的对象是无序属性的集合。
 对象的行为和特征
 	特征---属性
 	行为---方法
-
 ```
 
 **事物的特征在对象中用属性来表示。**
@@ -1592,7 +1590,6 @@ var obj1 = {
     age : 17,
     sex : '男',
 }
-
 for(var k in obj1){
     console.log(k);
     console.log(obj1[k]);
@@ -1609,7 +1606,6 @@ var obj1 = {
     age : 17,
     sex : '男',
 }
-
 console.log(obj1.age); //17
 delete obj1.age;  //删除对象中指定的属性
 console.log(obj1.age); // undefined
@@ -1895,10 +1891,10 @@ console.log(arr.length) // 2
   它的第一个参数为起始位置(从0开始)，第二个参数为终止位置(但该位置的元素本身不包括在内)。 如果省略第二个参数，则一直返回到原数组的最后一个成员。 
 
   ```js
-  var a = ['a','b','c','d','e'];
+  var a = ['a', 'b', 'c', 'd', 'e'];
   console.log(a.slice(0)) // "a", "b", "c", "d", "e"]
   console.log(a.slice(1)) // ["b", "c", "d", "e"]
-  console.log(a.slice(1,3)); // ["b", "c"]
+  console.log(a.slice(1, 3)); // ["b", "c"]
   ```
 
 - 返回数组的字符串表示形式。
@@ -1964,7 +1960,7 @@ var i = s.length;
 //返回参数在字符串中第一次出现的位置
 var i = s.indexOf('b'); 
 //从原字符串取出子字符串并返回，不改变原字符串
-var i = s.substr(2,4);
+var i = s.substr(2, 4);
 //从下标第二个开始截取4个长度的字符串
 //toLowerCase方法用于将一个字符串全部转为小写 
 //toUpperCase则是全部转为大写
@@ -1972,7 +1968,7 @@ var i = s.toLowerCase();
 var i = s.toUpperCase();
 
 // 用于替换匹配的子字符串,只替换第一个匹配 
-var i = s.replace('a','b');
+var i = s.replace('a', 'b');
 console.log(i);
 ```
 
@@ -2086,7 +2082,6 @@ JavaScript 引擎自动将其转为包装对象，在这个对象上调用`lengt
 
   ```
   两个空格和四个空格都行，尽量保持一致就行，但是使用4个空格的多一些；
-  
   ```
 
 - 分号：
@@ -2148,7 +2143,7 @@ if()
 
 - 自增自减运算
 
-  因为 ++ 在前和++ 在后的运算结果不同，所以，尽量使用 ` +=1  -=1`  替代，
+  因为 ++ 在前和++ 在后的运算结果不同，所以，尽量使用 ` += 1  -= 1`  替代，
 
   提高代码的可读性；
 

@@ -141,7 +141,7 @@ p[1].style.background = 'yellow';
 
 ```js
 var p = document.querySelectorAll('i,.p');
-for(var i = 0;i < p.length; i++){
+for(var i = 0; i < p.length; i++){
     p[i].style.background = 'yellow';
 }
 ```
@@ -155,7 +155,6 @@ for(var i = 0;i < p.length; i++){
 // var p = document.querySelectorAll('div.p');
 //选中所有的p标签，但是class值为p的除外
 var p = document.querySelectorAll('p:not(.p)');
-
 for(var i = 0; i < p.length; i++){
     p[i].style.background = 'yellow';
 }
@@ -225,8 +224,8 @@ for(var i = 0; i < p.length; i++){
   //根据id获取按钮,注册点击事件,添加事件处理函数
   document.getElementById("btn").onclick = function () {
     var aObj = document.getElementById("ak");
-    aObj.href = "http://www.itcast.cn";
-    aObj.innerText = "传智播客";
+    aObj.href = "http://www.jianshu.com";
+    aObj.innerText = "简书";
   };
 </script>
 </body>
@@ -243,9 +242,7 @@ for(var i = 0; i < p.length; i++){
 <p>爆炒助教</p>
 <p>凉拌班主任</p>
 <script>
-
   //document.getElementsByTagName("标签的名字");
-
   //点击按钮,修改所有的p的内容
   //根据id获取按钮,注册点击事件,添加事件处理函数
   document.getElementById("btn").onclick = function () {
@@ -256,9 +253,7 @@ for(var i = 0; i < p.length; i++){
       pObjs[i].innerText = "我们都是p";
     }
   };
-
 </script>
-
 </body>
 ```
 
@@ -303,7 +298,6 @@ for(var i = 0; i < p.length; i++){
     this.value = "改变吧";
   };
 </script>
-
 </body>
 ```
 
@@ -324,10 +318,8 @@ for(var i = 0; i < p.length; i++){
     imgObjs[i].onclick=function () {
       alert("啊,我被点击了");
     };
-
   }
 </script>
-
 </body>
 ```
 
@@ -344,7 +336,6 @@ for(var i = 0; i < p.length; i++){
     this.height = "400";
   };
 </script>
-
 </body>
 ```
 
@@ -369,7 +360,6 @@ for(var i = 0; i < p.length; i++){
         inputs[i].value = "我是文本框";
       }
     }
-
   };
 </script>
 ```
@@ -384,7 +374,6 @@ for(var i = 0; i < p.length; i++){
 <input type="button" value="没怀孕"/>
 <input type="button" value="没怀孕"/>
 <script>
-
   //获取所有的按钮
   var btnObjs = document.getElementsByTagName("input");
   //循环,为每个按钮注册点击事件,添加事件处理函数
@@ -426,10 +415,7 @@ for(var i = 0; i < p.length; i++){
 <body>
 <!--第1种写法-->
 <a href="http://www.baidu.com" onclick="alert('哈哈'); return false;">百度</a>
-
-
 <!--第2种写法-->
-
 <script>
   function f1() {
     alert("嘎嘎");
@@ -466,8 +452,6 @@ for(var i = 0; i < p.length; i++){
 <input type="button" value="显示效果" id="btn"/>
 <div id="dv"></div>
 <script>
-
-
   //点击按钮,设置div的宽和高,及背景颜色
   //根据id获取按钮,注册点击事件,添加事件处理函数
   document.getElementById("btn").onclick = function () {
@@ -478,7 +462,6 @@ for(var i = 0; i < p.length; i++){
     //css中的属性如果是多个单词连接的,在js代码DOM操作中多个单词中间的-干掉,后面单词的首字母变大写
     dvObj.style.backgroundColor = "pink";
   };
-
 </script>
 ```
 
@@ -622,8 +605,6 @@ for(var i = 0; i < p.length; i++){
 <body>
     <input type="button" value="按钮" id="btn" onclick="alert(2)">
 </body>
-
-
 <body>
     <input type="button" value="按钮" id="btn" onclick="f()">
 </body>
@@ -869,20 +850,17 @@ https://developer.mozilla.org/zh-CN/docs/Web/Events
 	//当鼠标移动时触发
     d.onmousemove = function(){
         console.log('别乱动');            
-    }
-    
+    } 
     //当点击右键时
     d.oncontextmenu = function(){
         console.log('你想干什么？');
         return false;
-    }
-	
+    }	
     // 当复制内容时
     d.oncopy = function(){
         console.log('你敢复制我？');
         return false;
-    }
-    
+    }  
 </script>
 ```
 
@@ -1033,20 +1011,15 @@ input ： 当内容改变时触发 （值变化事件）
     d1.addEventListener('click', function(){
         alert('m1');
     });//目标阶段触发
-
     d2.addEventListener('click', function(){
         alert('b2');
     }, true);//捕获阶段触发
-
     d3.addEventListener('click', function(){
         alert('b3');
     }, true);//捕获阶段触发
-
-
     d1.addEventListener('click', function(){
         alert('mm1');
     });//目标阶段触发
-
     d2.addEventListener('click', function(){
         alert('p2');
     });//冒泡阶段触发
@@ -1092,7 +1065,7 @@ d.addEventListener('click', function(e){
 
 var i = document.getElementById('i');
 //键盘事件
-i.addEventListener('keydown',k);
+i.addEventListener('keydown', k);
 function k(e){
     console.log(e);
 }
@@ -1548,7 +1521,6 @@ HTML元素节点的标准属性（即在标准中定义的属性），会自动�
     <div id="d" a="b"></div>
 </body>
 <script>
-
     var d = document.querySelector('#d');
     //获取原有属性值
     console.log(d.id);
@@ -1924,7 +1896,6 @@ t.onmouseout = function(e){
         }
         document.getElementById('tb').appendChild(tr);
     }
-
 </script>
 ```
 
@@ -1953,8 +1924,8 @@ t.onmouseout = function(e){
 
     document.getElementById('btn').onclick = function(){
         var d = document.createElement('div');
-        d.innerHTML = '<p>' + un.value+':</p>';
-        d.innerHTML += '<p>' + tt.value+'</p>';
+        d.innerHTML = '<p>' + un.value + ':</p>';
+        d.innerHTML += '<p>' + tt.value + '</p>';
         d.innerHTML += '<hr>';
         document.getElementById('cont').appendChild(d);
         un.value = '';
@@ -2136,7 +2107,6 @@ query:查询
 	可选，用于给动态网页传递参数，可有多个参数，用'&'符号隔开，每个参数的名和值用'='符号隔开。例如：name=zs
 fragment:信息片断
 	字符串，锚点.
- 
 ```
 
 `console.log(location);`
@@ -2814,7 +2784,7 @@ draggable的属性为`true`时，表示允许不能拖拽的元素可以拖拽�
         /*改背景*/
         body.style.backgroundColor = this.value;
         /*存储*/
-        localStorage.setItem('bgColor',this.value);
+        localStorage.setItem('bgColor', this.value);
     }
 </script>
 ```
@@ -2899,7 +2869,7 @@ draggable的属性为`true`时，表示允许不能拖拽的元素可以拖拽�
         $('[type="search"]').val('');
     });
     /*3. 点击删除 能删除对应的记录的关键字 重新渲染列表*/
-    $('ul').on('click','a', function () {
+    $('ul').on('click', 'a', function () {
         //获取当前数据对应的索引
         var index = this.dataset.index;
         //内存删除

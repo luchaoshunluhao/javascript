@@ -685,7 +685,7 @@ echo '着装建议：' . $xml -> result -> today -> dressing_advice . '<hr>';
 PHP 代码：
 
 ```php
-mysql_connect('localhost', 'root', '');
+mysql_connect('localhost', 'root', '123456');
 mysql_query('use test');
 mysql_query('set names utf8');
 
@@ -842,7 +842,7 @@ JSON 其实就是长的和JS对象几乎一样的 **字符串** ，
 修改第6章案例中PHP代码，使PHP生成json字符串：
 
 ```php
-mysql_connect('localhost', 'root', '');
+mysql_connect('localhost', 'root', '123456');
 mysql_query('use test');
 mysql_query('set names utf8');
 
@@ -934,7 +934,7 @@ echo json_encode($d);
 后台PHP代码
 
 ```php
-mysql_connect('localhost', 'root', '');
+mysql_connect('localhost', 'root', '123456');
 mysql_query('use test');
 mysql_query('set names utf8');
 
@@ -1246,7 +1246,7 @@ $.get = function(url){
             alert(xhr.responseText);
         }
     }
-    xhr.open('get',url);
+    xhr.open('get', url);
     xhr.send();
 }
 ```
@@ -1260,14 +1260,14 @@ $.get = function(url){
     var cb = function(msg){
         $('d').innerHTML = msg;
     }
-    $.get('09-1.php',cb);
+    $.get('09-1.php', cb);
 </script>
 ```
 
 修改 ajax.js
 
 ```js
-$.get = function(url,callback){
+$.get = function(url, callback){
     var xhr = $.init(); //调用init,获取ajax对象
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
@@ -1314,7 +1314,7 @@ $.get = function(url, callback, type=null){
             }
         }
     }
-    xhr.open('get',url);
+    xhr.open('get', url);
     xhr.send();
 }
 ```
@@ -1430,7 +1430,7 @@ echo json_encode($data);
 后台PHP代码：
 
 ```php
-mysql_connect('localhost', 'root', '');
+mysql_connect('localhost', 'root', '123456');
 mysql_query('use test');
 mysql_query('set names utf8');
 //查询SQL
