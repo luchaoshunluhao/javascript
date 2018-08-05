@@ -123,7 +123,7 @@ split(reg) ：以指定模式分割字符串，返回结果为数组
         //数组形式返回符合规则的字符串,使用g则返回全部匹配结果
         console.log(t.match(reg));
         //替换符合规则的字符串，使用g则全部替换
-        console.log(t.replace(reg,'***'));
+        console.log(t.replace(reg, '***'));
         //以规则为分割标志，分割整个字符串，以数组形式返回分割结果
         console.log(t.split(reg));
     }
@@ -365,7 +365,6 @@ console.log(reg.test(t));
 + 
 $
 ^ 
-
 ```
 
 匹配一个合法的网址URL：
