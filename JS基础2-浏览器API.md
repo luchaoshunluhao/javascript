@@ -870,7 +870,7 @@ https://developer.mozilla.org/zh-CN/docs/Web/Events
 | -------- | ------------------------------------------------- |
 | keydown  | 按下任意按键                                      |
 | keypress | 除 Shift, Fn, CapsLock 外任意键被按住. (连续触发) |
-| keyu     | 释放任意按键                                      |
+| keyup    | 释放任意按键                                      |
 
 ```html
 <body>
