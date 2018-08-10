@@ -55,7 +55,7 @@ XML ：数据传输格式
             }
         }
         //打开链接
-        xhr.open('get','1-1-2.php');
+        xhr.open('get', '1-1-2.php');
         //发送连接
         xhr.send();
     }
@@ -359,7 +359,7 @@ if($v == 'zhangsan')	//'zhangsan'这个用户名应该是被占用的，但是�
 
 ```js
 var url = '03-1.php?names=' + inp.value + '&_=' + Math.random();
-xhr.open('get',url);
+xhr.open('get', url);
 ```
 
 但是，随机数虽然解决了问题，但是，我们不能保证每次生成的随机数都不一样；
@@ -370,7 +370,7 @@ xhr.open('get',url);
 
 ```js
 var url = '03-1.php?names=' + inp.value + '&_=' + new Date().getTime();
-xhr.open('get',url);
+xhr.open('get', url);
 ```
 
 ### 3、 设置响应头禁用客户端缓存
@@ -626,7 +626,7 @@ var_dump($xml);
 $xml = simplexml_load_file('user.xml');
 foreach ($xml -> man as $v)
 {
-    echo '姓名:' . $v -> name.'；年龄：' . $v -> age . '<hr>';
+    echo '姓名:' . $v -> name . '；年龄：' . $v -> age . '<hr>';
 }
 ```
 
@@ -635,7 +635,7 @@ foreach ($xml -> man as $v)
 ```php
 $xml = simplexml_load_file('./01.xml');
 $length = count($xml);
-for($i=0; $i < $length; $i++)
+for($i = 0; $i < $length; $i++)
 {
     echo $xml -> man[$i] -> name;
 }
@@ -701,7 +701,7 @@ while($row = mysql_fetch_assoc($res))
     $xml .= '<name>' . $row['name'] . '</name>';
     $xml .= '</admin>';
 }
-$xml.='</users>';
+$xml . ='</users>';
 //响应头声明文件类型
 header('Content-type:text/xml');
 echo $xml;
@@ -725,7 +725,7 @@ echo $xml;
             }
         }
         var url = '06.php';
-        xhr.open('post',url);
+        xhr.open('post', url);
         //设置请求头
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send();
@@ -792,7 +792,7 @@ xhr.onreadystatechange = function(){
         for(var i = 0; i < admin.length; i++){
             var user = admin[i].
             getElementsByTagName('name')[0].innerHTML;//不管DOM树是否标准，都是DOM
-            gid('d').innerHTML += user+'<br>';
+            gid('d').innerHTML += user + '<br>';
         }
     }
 }
@@ -925,7 +925,7 @@ echo json_encode($d);
                 }
             }
         }
-        xhr.open('get', '08-3.php?data='+jn);
+        xhr.open('get', '08-3.php?data=' + jn);
         xhr.send();
     }
 </script>
@@ -1029,7 +1029,7 @@ $d = '{"name":"路飞", "age":17, "money":5, "nature":"橡胶"}';
 $s = json_decode($d);
 
 //结果为 PHP 关联数组
-$s = json_decode($d，true);
+$s = json_decode($d, true);
 
 var_dump($s);
 ```
