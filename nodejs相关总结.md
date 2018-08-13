@@ -243,6 +243,7 @@ server.on('request', function(request, response){
     response.setHeader("content-type", "text/html;charset=utf-8");
     response.end('<doctype><html><head></head><body></body></html>');
 });
+//下一行listen方法中第二个参数可以指定自己的IP，也可以不写，不写时在浏览器访问localhost:3000即可
 server.listen(3000, "192.168.81.1", function(){
     console.log('服务器开启成功');
 });
@@ -513,6 +514,8 @@ server.listen(3000, '192.168.81.1', function () {
 });
 ```
 
+> 但是此方法在打开网页后会出现小bug，即文件和目录分不清，图标都会显示文件夹的样子；文件大小和修改时间显示不正确，若要修复bug这需要后面的知识。
+
 html：
 
 ```html
@@ -615,4 +618,356 @@ html：
   })
 </script>
 ```
+
+#### （7）使用fs核心模块来判断路径是否为文件&文件夹
+
+```js
+var fs = require('fs');
+var str = './01.js';
+// 可以使用fs核心模块中的方法来进行判断
+// fs.stat用来判断路径的状态
+//  path:要判断的路径
+//  callback:判断之后的回调函数
+//      err:异常信息
+//      stats:状态对象（obj）
+//          size:大小
+//              如果是文件有大小
+//              如果是目录，没有大小
+//          mtime:内容被修改的时间
+fs.stat(str, function(err, stats){
+    if(err) {
+        return console.log(err.message);
+    }
+    // console.log(stats);
+    if(stats.isFile()) {
+        console.log(str + '是文件');
+        console.log(stats.size);
+    } else {
+        console.log(str + '是目录');
+    }
+});
+```
+
+#### （8）仿apach的目录浏览功能-服务器渲染
+
+```js
+var http = require('http');
+var fs = require('fs');
+//下载使用npm下载art-template 第三方包，用来渲染数据到html结构中
+var template = require('art-template');
+// 创建一个服务器
+var server = http.createServer();
+// 设置请求事件
+server.on('request', function (req, res) {
+    // 如果读取根目录，并数据 + html结构响应回去
+    var url = req.url;
+    // 判断
+    if (url === '/') {
+        // 得到html结构
+        //  readFile读取出来 的内容是十六进制的buffer数组
+        fs.readFile('./views/index.html', function (err, data) {
+            if (err) {
+                return console.log(err.message);
+            }
+            // res.end(data);
+            // 得到数据
+            fs.readdir('./', function (err1, files) {
+                if (err1) {
+                    return console.log(err1.message);
+                }
+                // 区分文件和文件夹
+                var fileArr = [];
+                var dirArr = [];
+                var count = 0;
+                for (var i = 0; i < files.length; i++) {
+                    (function (i) {
+                        fs.stat(files[i], function (err2, stat) {
+                            count ++;
+                            if (err2) {
+                                return console.log(err2.message);
+                            }
+                            if (stat.isFile()) {
+                                fileArr.push({
+                                    name: files[i],
+                                    type: 'file',
+                                    size: stat.size,
+                                    time: stat.mtime
+                                });
+                            } else {
+                                dirArr.push({
+                                    name: files[i],
+                                    type: 'dir',
+                                    size: stat.size,
+                                    time: stat.mtime
+                                });
+                            }
+                            if (count === files.length) {
+                                var newArr = dirArr.concat(fileArr);
+                                // newArr 就是我们要的数据对象
+                                // 将数据与结构结合
+                                // 数据: newArr [{name: ,type:'',size:'',time:''}]
+                                // 结构：data
+                                // 问题：如何装饰数据与结构结合：
+                                //    找第三方包：art-template可以用来帮助我们完成这个操作
+                                var htmlStr = template.render(data.toString(), {
+                                    newArr: newArr
+                                });
+                                res.end(htmlStr);
+                            }
+                        });
+                    })(i);
+                }
+            })
+        });
+    }
+})
+// 开启服务器
+server.listen(3000, function () {
+    console.log('running');
+});
+```
+
+### 3、 Node中的模块系统
+
+#### （1）什么是模块?
+
+- 随着项目的推进、逻辑的复杂,不可能把所有js代码都写在一个文件中
+- **一个js文件就是一个具有独立功能的模块**
+- Node中按照模块去划分功能,有一套模块加载机制:
+  - module.exports导出模块成员
+  - require()导入模块成员
+
+#### （2）导入模块(require方法)
+
+- **作用:**加载并执行模块中的代码!!!!
+
+- **使用**:`require()` 方法的()中可以写:
+
+  ```js
+  // 1. node自带的模块,如fs、http
+  require('fs');
+  // 2. 通过路径引入的自己的js文件
+  require('./foo.js');
+  ```
+
+  > 注意事项
+
+  ① `require()` 加载模块是**同步**加载!!
+
+  ② 引入自己的js文件时,路径中的./或者../**不能省略**
+
+  ③ 如果省略,`require()` 会把它当成是一个node自带的模块
+
+  报错信息不要害怕!!!一定要去看!!!
+
+  ④ 模块后缀`.js` **可以省略不写**
+
+#### （3）导出模块
+
+模块中定义的变量是**局部**的, 
+
+那如何在A模块使用B模块中定义好的变量呢?
+
+这个问题, 就涉及到了模块加载机制
+
+##### 导出模块中的变量
+
+- 每个模块中都有一个 `module` 对象
+- `module `对象中有一个` exports `对象
+- 我们可以把需要导出的成员都挂载到` module.exports ` 对象上
+
+`foo.js` 
+
+```js
+var a = 10;
+var b = 20;
+function add(){};
+
+module.exports.a = a;
+module.exports.b = b;
+module.exports.add = add;
+
+// 可以理解为在模块的末尾有这样一句代码: return module.exports;
+// return module.exports;
+```
+
+`main.js` 
+
+##### 导入模块
+
+```js
+// 1 导入模块
+var foo = require('./foo.js);
+// 2 使用模块中的成员                  
+console.log(foo.add);
+console.log(foo.a);
+```
+
+#### （4）模块分类及第三方模块(包)的使用
+
+- 核心模块
+  - 由 `Node` 本身提供，例如` fs` 、`http` 等
+- 自定义(用户)模块
+  - 自己写的.js文件，按照路径来加载，注意 `./` 或者 `../` 不能省略
+- 第三方模块
+  1. 在[npm网站](https://www.npmjs.com/)找包(模块) 
+  2. 打开cmd, 使用命令 `npm install 包名` 安装包
+  3. 在需要使用的位置, 通过`require('第三方包名') ` 加载包
+  4. 看文档调用 API
+
+### 4、art-template 第三方包
+
+#### （1）使用art-template
+
+```js
+// 1、遍历对象
+// var template = require('art-template');
+// // 有html结构
+// var str = '<ul><li><%=name%></li><li>{{age}}</li></ul>';
+// // 也有数据
+// var obj = {
+//     name: '张三',
+//     age: 18
+// };
+// // 结合
+// //  render可以结合html结构和数据
+// //      str:结构
+// //      obj：数据
+// var htmlStr = template.render(str, obj);
+// console.log(htmlStr);
+
+// 2、遍历数组
+var template = require('art-template');
+// 准备结构
+var str = '<ul>{{each arr}}<li>{{$index}}----{{$value.name}}----{{$value.age}}</li>{{/each}}</ul>';
+// 数据
+var arr = [
+    {name: '张三', age: 18},
+    {name: '李四', age: 30}
+]
+// 结合
+var htmlStr = template.render(str, {
+    arr: arr
+});
+console.log(htmlStr);
+
+//需要结合
+//  art-template的使用步骤：
+//  1、下载
+//  2、在html结构中书写art-template的语法
+//      输出：
+//          {{name}}
+//      条件：
+//          {{if 条件}} ... {{else if 条件}}... {{else}}
+//      循环
+//          {{each 数据}} {{$index}} {{$value}}  {{/each}}
+//  3、通过nodejs代码将结构与数据结合起来
+```
+
+#### （2）使用url核心模块来将参数转为对象
+
+```js
+// url核心模块可以帮助我们将路径后面的参数得到
+//  url: http://192.168.11.1:8080/abc/index.html?name=abc&age=18
+
+// 引用
+var url = require('url');
+// pase路径
+var strUrl = 'http://192.168.11.1:8080/abc/index.html?name=abc&age=18';
+var urlObj = url.parse(strUrl, true);
+console.log(urlObj);
+```
+
+### 5、npm包管理器
+
+#### （1） [npm](https://www.npmjs.com/) 是什么
+
+- npm 全称  `Node Package Manager`，它的诞生是为了解决 Node 中第三方包共享的问题。 和浏览器一样，由于都是 JavaScript，所以前端开发也使用 npm 作为第三方包管理工具。 例如大名鼎鼎的 jQuery、Bootstrap 等都可以通过 npm 来安装。 所以官方把 npm 定义为  `JavaScript Package Manager`。
+
+- > yarn也是包管理器
+
+#### （2）npm 命令行工具
+
+- 只要你安装了 node 就已经安装了 npm,可以在cmd中进行npm的指令操作
+
+  ```bash
+  // 检验npm是否安装成功
+  npm --version
+  ```
+
+- 常用命令
+
+  ```cmd
+  // 在项目中初始化一个 package.json 文件,凡是使用 npm 来管理的项目都会有这么一个文件
+  // 只敲一次就可以!
+  npm init   
+  
+  // 跳过向导，快速生成 package.json 文件,简写是npm init -y
+  npm init --yes
+  
+  // 一次性安装 dependencies 中所有的依赖项,简写是 npm i
+  npm install
+  
+  // 安装指定的包，可以简写为 npm i 包名
+  // npm 5 以前只下载，不保存依赖信息，如果需要保存，则需要加上 --save 选项
+  // npm 5 以后就可以省略 --save 选项了
+  npm install 包名
+  
+  // 一次性安装多个指定包
+  npm install 包名 包名 包名 ...
+  
+  // 安装指定版本的包!!!
+  npm install jquery@版本号
+  // 如果不指定版本号,默认安装最新稳定版本
+  
+  // 卸载指定的包
+  npm uninstall 包名
+  
+  // 查看使用帮助
+  npm help
+  
+  // 查看某个命令的使用帮助
+  // 例如我忘记了 uninstall 命令的简写了，这个时候，可以输入 npm uninstall --help 来查看使用帮助
+  npm 命令 --help
+  ```
+
+#### （3）package.json
+
+- 我们的项目会放到云端的仓库中，例如 github ，第三方包没有上传的意义，我们只需要把我们的源码放到云端仓库，`node_modules` 目录中存储的就是第三方包（不用担心丢失问题），如果没有 `package.json` 文件则你就找不回来了。
+
+- 建议每一个项目都要有一个  `package.json`  文件（包描述文件，就像产品的说明书一样），给人踏实的感觉最重要的就是保存这个项目的第三方依赖信息（因为我们不需要提交第三方包到我们的云端仓库，只需要提交我们自己的代码），有了这个文件中的依赖信息结合  `npm install`  命令我们就可以放心了。
+
+- 这个文件可以通过 `npm init` 的方式来自动初始化出来。
+
+  ```cmd
+  npm init
+  ```
+
+- 对于咱们目前来讲，最有用的是那个 `dependencies` 选项，可以用来帮我们保存第三方包的依赖信息。
+
+- 如果你的 `node_modules` 删除了也不用担心，我们只需要：`npm install` 就会自动把 `package.json` 中的 `dependencies` 中所有的依赖项都下载回来。
+
+- 建议每个项目的根目录下都有一个 `package.json` 文件
+
+  - 不同的项目有不同依赖，各自保存各自的
+
+- 执行 npm install 包名的的时候可以加上--save
+
+  ```
+  --save
+  ```
+
+  这个选项，目的是用来保存依赖项信息
+
+  - npm 5 以前不会自动保存依赖信息到 package.json 文件中，必须手动加 `--save` 选项才可以
+  - npm 5 以后不需要加 `--save` 选项了，因为它会自动保存依赖项
+
+#### （4） package-lock.json
+
+- npm 5 以前是不会有 `package-lock.json` 这个文件的。
+- 当你安装包的时候，npm 都会生成或者更新 `package-lock.json` 这个文件。
+- npm 5 以后的版本安装包不需要加 `--save` 参数，它会自动保存依赖信息
+- 当你安装包的时候，会自动创建或者是更新 `package-lock.json` 这个文件
+- `package-lock.json`  这个文件会保存  `node_modules`  中所有包的信息（版本、下载地址）
+  - 这样的话重新 `npm install` 的时候速度就可以提升
 
