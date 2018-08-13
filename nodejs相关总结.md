@@ -739,9 +739,9 @@ server.listen(3000, function () {
 
 #### （2）导入模块(require方法)
 
-- **作用：**加载并执行模块中的代码!!!!
+- **作用**：加载并执行模块中的代码!!!!
 
-- **使用**:`require()` 方法的()中可以写:
+- **使用**：`require()` 方法的()中可以写:
 
   ```js
   // 1. node自带的模块,如fs、http
@@ -797,7 +797,7 @@ module.exports.add = add;
 
 ```js
 // 1 导入模块
-var foo = require('./foo.js);
+var foo = require('./foo.js');
 // 2 使用模块中的成员                  
 console.log(foo.add);
 console.log(foo.a);
