@@ -786,7 +786,7 @@ server.listen(3000, function () {
 	4）exports = modules.exports =  fucntion() {}
 ```
 
-**导入模块`foo.js` **
+##### 导入模块`foo.js` 
 
 ```js
 var a = 10;
