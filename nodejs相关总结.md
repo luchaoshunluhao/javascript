@@ -749,7 +749,6 @@ server.listen(3000, function () {
   // 2. 通过路径引入的自己的js文件
   require('./foo.js');
   ```
-
   > 注意事项
 
   ① `require()` 加载模块是**同步**加载!!
@@ -774,9 +773,20 @@ server.listen(3000, function () {
 
 - 每个模块中都有一个 `module` 对象
 - `module `对象中有一个` exports `对象
+- 在CommonJS 中规定：一个模块返回数据可以通过module.exports和rexports两个关键字来返回
+- 模块最终返回的仅仅只是 modules.exports
+- exports 仅仅只是 modules.exports的一个引用
 - 我们可以把需要导出的成员都挂载到` module.exports ` 对象上
 
-`foo.js` 
+```
+验证module.exports与exports的关系：
+	1）console.log(module.exports === exports);
+	2）exports.a = 123;
+	3）exports = fucntion() {}
+	4）exports = modules.exports =  fucntion() {}
+```
+
+**导入模块`foo.js` **
 
 ```js
 var a = 10;
@@ -791,9 +801,7 @@ module.exports.add = add;
 // return module.exports;
 ```
 
-`main.js` 
-
-##### 导入模块
+##### 导入模块`main.js` 
 
 ```js
 // 1 导入模块
@@ -803,7 +811,55 @@ console.log(foo.add);
 console.log(foo.a);
 ```
 
-#### （4）模块分类及第三方模块(包)的使用
+#### （4）模块加载机制
+
+- require关键字：
+
+  - 可以帮助一个模块加载另一个模块
+
+- 优先从缓存中加载
+
+  - Node 加载模块时，如果这个模块已经被加载过了，则会直接缓存起来，将来再次引用时不会再次加加载这个模块（即：如果一个模块被加载两次，则模块中的代码只会被执行一次）
+  - 加载模块本质上是加载模块中的modules.exports值
+
+- 核心模块
+
+  - 先去缓存中看下是否存在，如果有，直接拿来使用
+  - 如果没有，则加载
+
+- 自定义模块
+
+  - 以 './' 或者 '../' 或者 'c:/xxx' 类似于这样的标识路径作为加载名
+
+- 第三方模块：包
+
+  - 先在当前文件的模块所属目录去找 node_modules目录
+  - 如果找到，则去该目录中找 moment 目录
+  - 如果找到 moment 目录， 则找该目录中的 package.json文件
+  - 如果找到 package.json 文件，则找该文件中的 main属性
+  - 如果找到main 属性，则拿到该属性对应的文件
+  - 如果找到 moment 目录之后，
+    - 没有package.json
+    - 或者有 package.json 没有 main 属性
+    - 或者有 main 属性，但是指向的路径不存在 
+    - 则 node 会默认去看一下 moment 目录中有没有 index.js ,index.node, index.json 文件
+  - 如果找不到index 或者 找不到 moment 或者找不到 node_modules 
+  - 则进入上一级目录找 node_moudles 查找（规则同上）
+  - 如果上一级还找不到，继续向上，一直到当前文件所属磁盘的根目录
+  - 如果到磁盘概目录还没有找到，直接报错
+
+  ```
+  核心模块：
+  	由 Node 本身提供，通过唯一的模块标识名进行加载
+  	核心模块本质上也是文件模块，它已经被编译到可执行文件中了
+  第三方模块
+  用户自定义模块
+  ```
+
+- 模块的兼容处理
+  - 有些模块即能在浏览器端使用，又能在服务器端使用，是因为它们作了兼容处理（如：moment）
+
+#### （5）模块分类及第三方模块(包)的使用
 
 - 核心模块
   - 由 `Node` 本身提供，例如` fs` 、`http` 等
