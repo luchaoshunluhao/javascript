@@ -1029,8 +1029,6 @@ console.log(urlObj);
 
 ## 三、ECMAScript 6 
 
-## ECMAScript 6 (2015)
-
 一般情况下不建议在window环境下面使用ES6
 
 ### 1、 严格模式
