@@ -1027,3 +1027,533 @@ console.log(urlObj);
 - `package-lock.json`  这个文件会保存  `node_modules`  中所有包的信息（版本、下载地址）
   - 这样的话重新 `npm install` 的时候速度就可以提升
 
+## 三、ECMAScript 6 
+
+## ECMAScript 6 (2015)
+
+一般情况下不建议在window环境下面使用ES6
+
+### 1、 严格模式
+
+```javascript
+'use strict'
+```
+
+- 如果开启了严格模式，变量不能直接使用，必须先申明，申明变量时一定要用var / let
+- 更多介绍：http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html
+
+### 2、 申明一个变量(let)
+
+- let 申明的变量不存在变量提升 
+
+  ```js
+  //console.log(a); // undefined
+  //var a = 123;
+  //console.log(a); // 123
+  //等同于
+  var a;
+  console.log(a);
+  a = 123;
+  console.log(a);
+  console.log(a);
+  let a = 123;
+  console.log(a);
+  ```
+
+  
+
+- let 申明的变量不允许重复声明
+
+  ```js
+  var a = 123;
+  var a = 456;
+  console.log(a);
+  let a = 123;
+  let a = 456;
+  console.log(a);
+  ```
+
+- let 申明的变量存在块级作用域
+
+  - 可以用来解决闭包问题
+
+  ```js
+  // 块级作用域：来自于后台
+  //  特点：凡是大括号包裹的部分都是一个单独的作用域，我们把这个作用域叫做块级作用域， 块级作用域之间不会相互影响
+  if (true) {
+      let a = 123;
+      console.log(a);
+  } 
+  // if (true) {
+  //     console.log(a);
+  // }
+  console.log(a);
+  ```
+
+  
+
+### 3、 申明一个常量 (const)
+
+- contst申明的常量：一旦设置无法修改
+
+  - 可以改变对象中的属性
+
+- contst申明的常量：一旦设置不可重复声明
+
+  ```js
+  // const a = 123;
+  // a = 456;
+  // console.log(a);
+  // 值类型（简单类型）
+  //  简单类型的常量一旦设置无法修改
+  // 引用类型（复杂类型）
+  //  一旦赋值只要不是改变引用还是可以修改的
+  const obj = {
+      name: "张三"   
+  }
+  // 修改引用类型的引用地址
+  // obj = {};// 如果修改引用地址会报错
+  obj.name = "李四";// 修改的是地址中对应对象的属性：
+  
+  console.log(obj);
+  ```
+
+### 4、 字符串的一些扩展方法的使用
+
+- includes() ：返回布尔值，表示是否找到了参数字符串
+
+- startsWith() ：返回布尔值，表示是否找到了参数字符串
+
+- endsWith() ：返回布尔值，表示参数字符串是否在源字符串的尾部
+
+- repeat()：返回一个新字符串，表示将原字符串重复n次
+
+  ```javascript
+  var s = "hello world";
+  s.startsWith('hello') //true
+  s.startsWith('world', 6) //true   ，表示从第6个开始后面的字符是 world
+  s.endWith('hello', 5) //true ，表示前5个字符是hello
+  'x'.repeat(2)  // “xx”
+  'hello'.repeat(2)  // “hellohello”
+  'ivan'.repeat(0)  // “”
+  ```
+
+### 5、 模板字符串
+
+- 使用“`”来定义模板字符串
+
+- 在模板字符串中可以保持变量的结构，可以识别换行
+
+- 在模板字符串中可以直接使用js代码格式：${ code }
+
+  ```js
+  var obj = {
+      name: '张三',
+      age: 18
+  }
+  // var a = '<ul><li>' + obj.name + '</li><li>' + obj.age + '</li></ul>';
+  // console.log(a);
+  
+  // 模板字符串：
+  //  1.0 拼接字符：输出变量
+  // var a = `<ul><li> ${obj.name} </li><li> ${obj.age} </li></ul>`;
+  // console.log(a);
+  //  2.0 识别换行
+  var a = `<ul>
+      <li>${obj.name}</li> 
+      <li>${obj.age}</li>
+  </ul>`;
+  console.log(a);
+  ```
+
+### 6、 解构赋值
+
+#### （1） 字符串的解构赋值
+
+- var [a,b,c] = 'xyz';
+
+```
+const [a, b, c, d, e] = 'hello';
+a // "h"
+b // "e"
+c // "l"
+d // "l"
+e // "o"
+```
+
+#### （2）对象解构
+
+- var {name, age} = {name: 'zs', age: 18}
+- 给对象属性设置别名
+  - var {name: myName, age} = {name: 'zs', age: 18}
+- 属性设置默认值(如果对旬中有这个属性，并且值不为undefined，那么这个属性的值为对象中
+  - var {name='ls', age} = {name: 'zs', age: 18}的值，如果不存在或者是值为undefined,那么值为：默认值)
+
+```js
+var obj = {
+  name: '张三',
+  age: 18
+}
+var {name, age} = obj;
+name // 张三
+age  // 18		
+```
+
+- 无顺序问题
+
+#### （3） 数组的解构
+
+- var [x,y,z] = [1,2,3];
+
+```
+var arr = ['a', 'b', 'c']
+var [x, y, z] = arr;
+x // 'a'
+y // 'b'
+z // 'c'
+```
+
+- 有顺序问题
+- 被赋值的变量和数组中的元素个数可以不相等
+
+#### （4）其它特点
+
+- 可以指定默认值
+- 解构出来的元素不一定要与前面的对象一一对应
+- 可以给解构出来的元素设置别名
+
+### 7、 箭头函数的推演
+
+- 作用：在nodejs中我们大量使用了回调函数,每次回调函数都用匿名函数来实现,ES6中为了能够让我们书写匿名函数速度加快，就提出了箭头函数，用来简化匿名函数
+
+  ```
+  写法1: arr.sort(function(x, y){return x - y ;});
+  写法2：arr.sort((x, y) => {return x - y ;});
+  写法3：arr.sort((x, y) => x - y);
+  ```
+
+- 箭头函数的其它写法
+
+  ```
+  如果参数只有一个，可以将()省略    // arr.map(c => c + 1);
+  如果没有参数，则一定能要写上()     // ()=> console.log(‘a’)
+  如果多于一个参数，每个参数之间用逗号分隔   (x, y) => { ... }
+  如果方法体只有一句代码，可以省略{} 和分号，如果有返回可以省略return
+  如果方法体多于一句代码，则不能省略{} ,每句代码使用 分号分隔
+  ```
+
+- 箭头函数的一些特点
+
+  - 箭头函数没有自己的this，函数体内部写的this，指向的是外层代码块的this
+
+    ```js
+    //匿名函数
+    var obj = {
+        name: '张三',
+        age: 18,
+        sayHi: function(){
+            console.log(`大家好，我叫${this.name},今年${this.age}岁了`);
+        }
+    }
+    obj.sayHi();
+    // 箭头函数
+    this.name = '李四';
+    this.age = 20;
+    // window
+    var obj = {
+        name: '张三',
+        age: 18,
+        sayHi: () => {// => goes to
+            console.log(`大家好，我叫${this.name},今年${this.age}岁了`);
+        }
+    }
+    obj.sayHi();
+    ```
+
+  - 箭头函数内部的this是定义时所在的对象，而不是使用时所在的对象并且不会改变
+
+    ```js
+    // 匿名函数
+    var obj = {
+        name: '张三',
+        age: 18,
+        sayHi: function(){
+            console.log(`大家好，我叫${this.name},今年${this.age}岁了`);
+        }
+    }
+    var newObj = {
+        name: '李四',
+        age: 40
+    }
+    // 可以通过apply和call动态改变this的指向
+    obj.sayHi.apply(newObj);
+    // 箭头函数
+    this.name = '李四';
+    this.age = 30;
+    var obj = {
+        name: '张三',
+        age: 18,
+        sayHi: ()=>{
+            console.log(`大家好，我叫${this.name},今年${this.age}岁了`);
+        }
+    }
+    var newObj = {
+        name: '范冰冰',
+        age: 40
+    }
+    // 函数在定义时this指向的是obj上一层中的this name = '王五'
+    // obj.sayHi();
+    // 可以通过apply和call动态改变this的指向
+    // 调用时使用newObj来调用，并没有改变this的指向
+    obj.sayHi.apply(newObj);
+    ```
+
+  - 箭头箭头函数不能用作构造函数
+
+    ```js
+    // 普通构造函数
+    var GirlFirend = function(name, age){
+        this.name = name;
+        this.age = age;
+    }
+    var g1 = new GirlFirend('张三', 30);
+    console.log(g1.name, g1.age);
+    
+    var GirlFirend = (name, age) => {
+        this.name = name;
+        this.age = age;
+    }
+    var g2 = new GirlFirend('李四', 39);
+    console.log(g2.name, g2.age);
+    ```
+
+  - 箭头函数内部不存在arguments，箭头函数体中使用的arguments其实指向的是外层函数的arguments
+
+    ```js
+    //  什么是arguments：函数在使用时的实参
+    // // 普通函数
+    // var fn = function () {
+    //     // 将所有的传入的实参打印出来
+    //     console.log('-----fn-------');
+    //     console.log(arguments);
+    //     console.log('-----fn-------');
+    //     return function () {
+    //         console.log('-----fn1-------');
+    //         console.log(arguments);
+    //         console.log('-----fn1-------');
+    //     }
+    // }
+    // var fn1 = fn(1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+    // fn1(1, 2, 3, 4, 5);
+    // // fn 1,2,3,4,5,6,7,8,9,0
+    // // fn1 1,2,3,4,5
+    // 箭头函数
+    var fn = function () {
+        // 将所有的传入的实参打印出来
+        console.log('-----fn-------');
+        console.log(arguments);
+        console.log('-----fn-------');
+        return  () => {
+            console.log('-----fn1-------');
+            console.log(arguments);
+            console.log('-----fn1-------');
+        }
+    }
+    var fn1 = fn(1,2,3,4,5,6,7,8,9,0);
+    fn1(1,2,3,4,5);
+    ```
+
+### 8、 对象中属性的简写
+
+```js
+    //es5中对象： {add:add, substrict:substrict}
+    //es6中对象： {add, substrict}  注意这种写法的属性名称和值变量是同一个名称才可以简写，否则要想es5那样的写法,例如： {addFun:add}
+    var name = '李四';
+    var age = 20;
+    // ES6之前
+    var obj = {
+        name: name,
+        age: age
+    }
+    //ES6之后
+    var obj = {
+        name,
+        age
+    }
+    console.log(obj.name, obj.age);
+```
+
+### 9、对象中方法的简写
+
+```js
+    //es5中对象： {add:function(){}, substrict:function(){}}
+    //es6中对象： {add(){}, substrict(){}}
+    //ES6之前
+    var obj = {
+        name,
+        age,
+        sayHi: function(){
+            console.log(`大家好，我叫${this.name}, 今年${this.age}岁了`);
+        }
+    }
+    // ES6之后
+    var obj = {
+        name,
+        age,
+        sayHi(){
+            console.log(`大家好，我叫${this.name}, 今年${this.age}岁了`);
+        }
+    }
+    obj.sayHi();
+```
+
+### 10、promise
+
+- 含义：承诺（答应去做，但是还没有做）
+
+- 来由：ES6之前是没有promise的，这个玩意是由前端社区提出，在ES6中成为一个标准
+
+- 作用：它是用来简化回调函数的多层嵌套
+
+- 使用：
+
+  ```
+  //  1)要使用promise必须先根据promise构造函数创建一个函数对象
+  //      在promise的构造函数中有两个参数：resolve  reject    这两个参数是两个函数
+  //          这两个参数是与promise中的状态对应：
+  //              pending（进行中）
+  //              fulfilled（已成功）
+  //              rejected（已失败）
+  //          状态的切换有两种方式：
+  //              pending---->fulfilled 操作成功   --->会执行resolve中的方法
+  //              pending---->rejected 操作失败    --->会执行reject中的方法
+  //      在使用promise的时候可以在后面接无数个then方法，then方法可以传递参数
+  //          参数一般分为三种类型：
+  //              1）undefined
+  //              2）普通数据：字符串，数字，boolean,数组，对象
+  //              3）promise对象
+  //  2)使用then方法执行promise
+  //  3)在promise中提供一个统一处理错误的方法：catch
+  ```
+
+  - 创建一个promise 对象
+
+    ```
+    var p = new Promise(function(resolve, reject){
+        if () {
+            // 如果成功执行reject
+        } else{
+            // 如果失败执行resolve
+        }
+    });
+    ```
+
+    - resolve： 成功后执行
+    - reject: 失败后执行 
+
+    执行promise的代码：使用p.then()方法执行
+
+    - then(resolve, reject ) 方法可以执行promise的代码
+      - 特点：可以无限调用then方法
+    - 统一处理捕获异常的方法： catch()
+
+  - then方法返回值：
+
+    - 每个then方法执行完成以后，会将返回值交给下一个then方法，如果没有返回值，其实返回的是undefined
+    - 没有返回值
+      - 如果没有返回值，返回值为undefined
+    - 返回值为：数字，字符串，对象，数组....
+      - 下面的then方法可以直接通过resolve方法的参数接收到
+    - 返回值为一个新的promise对象：
+      - 将来下面紧跟的then方法其实是执行上面返回的promise对象的then方法            
+
+```js
+// 需求：依次将三个文件中的内容读取出来并且输出： 0 ~ 1 ~ 2
+var fs = require('fs');
+// 读取0文件
+fs.readFile('./file/0.txt', function (err0, data0) {
+    if (err0) {
+        return console.log(err0.message);
+    }
+    console.log(data0.toString());
+    // 读取1文件
+    fs.readFile('./file/1.txt', function (err1, data1) {
+        if (err1) {
+            return console.log(err1.message);
+        }
+        console.log(data1.toString());
+        // 读取2文件
+        fs.readFile('./file/2.txt', function (err2, data2) {     
+            if (err2) {
+                return console.log(err2.message);
+            }
+            console.log(data2.toString());
+        });
+    });
+});
+// 回调地狱
+```
+
+使用promise解决回调地狱
+
+```js
+// var p = new Promise(function(reject, resolve){
+//     if () {
+//         // 如果成功执行reject
+//     } else{
+//         // 如果失败执行resolve
+//     }
+// });
+
+// // 需求：依次将三个文件中的内容读取出来并且输出： 0 ~ 1 ~ 2
+// 创建一个promise对象读取0文件
+var fs = require('fs');
+// 一旦Promise被创建：
+//      promise的状态为： pending 等待
+//      promise执行以后，状态会发生改变
+//          pending -- fulfilled 说明执行成功  执行resolve方法
+//          pending -- rejected 说明执行失败  执行reject
+//          一旦对应的状态确定，就无法改变
+var p0 = new Promise(function (resolve, reject) {
+    fs.readFile('./file/0.txt', function (err, data) {
+        if (err) {
+            reject(err);
+        } else {
+            resolve(data);
+        }
+    });
+});
+// 读取1文件
+var p1 = new Promise(function (resolve, reject) {
+    fs.readFile('./file/1.txt', function (err, data) {
+        if (err) {
+            reject(err);
+        } else {
+            resolve(data);
+        }
+    });
+});
+// 调用：than
+p0
+    .then(data => {
+        console.log(data.toString());
+        // 不返回值任何内容：返回值 为undefined
+    })
+    .then((res) => {
+        console.log(res); // undeinfed
+        console.log('第二个then方法'); 
+        // 返回值为非promise对象
+        return 'abc';
+    })
+    .then((str) => {
+        console.log(str);// abc
+        console.log('第三个then方法');
+        // 返回值为promise对象
+        return p1;
+    })
+    .then((data) => {
+        console.log(data.toString());
+        console.log('第四个then方法');
+    });
+```
+
