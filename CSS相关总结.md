@@ -506,7 +506,7 @@ font综合属性的语法：`font：[ <' [font-style] '> || <' [font-weight] '> 
 
 ​	盒子内容区，内边距区，边框，外边距区
 
-![BubbleSort_01](https://raw.githubusercontent.com/luchaoshunluhao/images/master/box.png)
+![box](https://raw.githubusercontent.com/luchaoshunluhao/images/master/box.png)
 
 > content：内容
 >
