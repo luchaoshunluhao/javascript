@@ -234,7 +234,7 @@ hasClass(class) ：判断元素是否具有某个class属性
 ```html
 <body>
     <div style="width:300px;height:300px;border:1px red solid">
-            itcast
+        hello world
     </div>
 </body>
 <script>
@@ -263,7 +263,7 @@ css(properties) ：一次为元素设置多个属性值，要求参数是一个j
 ```html
 <body>
     <div style="width:300px;height:300px;border:1px red solid">
-            itcast
+        hello world
     </div>
 </body>
 <script>
@@ -289,7 +289,7 @@ offset(coordinates) ：设置元素位置要求是一个json对象，必须包�
 ```html
 <body>
     <div style="width:300px;height:300px;border:1px red solid">
-            itcast
+        hello world
     </div>
 </body>
 <script>
